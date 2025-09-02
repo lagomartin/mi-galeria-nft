@@ -1,41 +1,42 @@
-# NFT Gallery
+# Galería de NFTs - Proyecto Diplomatura Blockchain UTN
+Este proyecto es una aplicación web descentralizada (DApp) que muestra una colección de NFTs. Fue desarrollado como el trabajo práctico final para la Diplomatura en Blockchain de la UTN.
 
-Create your own NFT gallery for any ERC721/ERC1155 NFT collection on [any EVM-compatible chain](https://blog.thirdweb.com/any-contract-any-evm-chain/).
+La aplicación permite a los usuarios conectar su billetera digital y visualizar los NFTs alojados en un contrato inteligente desplegado en la red de pruebas Sepolia.
 
-View the metadata of all NFTs in the collection, including features such as pagination, filtering, and search.
+## 🚀 Demo en Vivo
+Puedes ver la DApp funcionando en el siguiente enlace:
 
-## Using This Repo
+mi-galeria-nft.vercel.app
 
-To create your own version of this template, you can use the following steps:
+## ✨ Características
+Galería de NFTs: Muestra todos los NFTs minteados en el contrato inteligente.
 
-Run this command from the terminal to clone this project:
+Conexión con Billetera: Integra un botón para que los usuarios puedan conectar sus billeteras (ej. MetaMask).
 
-```bash
-npx thirdweb create --template nft-gallery
-```
+Desplegado sin Servidor: La aplicación está alojada en Vercel, aprovechando la infraestructura serverless.
 
-## Environment Variables
+Contrato Inteligente ERC721: Los NFTs se gestionan a través de un contrato estándar ERC721.
 
-To run this project, you will need to add environment variables. Check the `.env.example` file for all the environment variables required and add it to `.env` file or set them up on your hosting provider.
+## 🛠️ Tecnologías Utilizadas
+Este proyecto fue construido utilizando un stack de herramientas moderno para el desarrollo Web3:
 
-### 1. Deploy or Import Your NFT Collection
+Smart Contract: Solidity (a través de la plantilla ERC721 de Thirdweb).
 
-If you haven't already deployed your contract, head over to the thirdweb dashboard and create your own [NFT collection](https://thirdweb.com/thirdweb.eth/TokenERC721) contract.
+Plataforma Web3: Thirdweb para el despliegue y la gestión del contrato.
 
-If you have an existing contract, use the [thirdweb dashboard](https://thirdweb.com/dashboard) to import it!
+Frontend: React con Vite como herramienta de construcción.
 
-### 2. Configure Parameters
+Interacción con Blockchain: SDK de React de Thirdweb (@thirdweb-dev/react).
 
-Go to the [`parameters.ts`](/src/consts/parameters.ts) and update the following values:
+Hosting: Vercel para el despliegue continuo y alojamiento.
 
-1. `contractAddress`: The smart contract address of your NFT collection.
-2. `chain`: The name of the chain that your smart contract is deployed to.
-3. `blockExplorer`: (Optional) - The block explorer to open when user's click on historical events of each NFT.
+Red de Blockchain: Sepolia Testnet.
 
-### 3. Customize the Styling
+## 📄 Información del Smart Contract
+Dirección del Contrato: 0xCb1518750139401e8eb4b5B67A7E456a71a2dcED
 
-Update the styles in the respective components by changing the [Tailwind](https://tailwindcss.com/) classes.
+Red: Sepolia
 
-## Join our Discord!
+Estándar: ERC-721 (NFT Drop)
 
-For any questions or suggestions, join our discord at [https://discord.gg/thirdweb](https://discord.gg/thirdweb).
+Explorador: Ver en Sepolia Etherscan
