@@ -1,56 +1,44 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  LoaderFunction,
-  ActionFunction,
-} from "react-router-dom";
+import { ConnectWallet, ThirdwebNftMedia, useContract, useNFTs } from "@thirdweb-dev/react";
+import styles from "../index.css";
 
-interface IRoute {
-  path: string;
-  Element: JSX.Element;
-  loader?: LoaderFunction;
-  action?: ActionFunction;
-  ErrorBoundary?: JSX.Element;
-}
+// Esta es la dirección de tu contrato que ya creaste en Thirdweb.
+const NFT_COLLECTION_ADDRESS = "0xCb1518750139401e8eb4b5B67A7E456a71a2dcED";
 
-const pages = import.meta.glob("./pages/**/*.tsx", { eager: true });
+const Home = () => {
+  // Conectamos con tu contrato usando su dirección
+  const { contract } = useContract(NFT_COLLECTION_ADDRESS);
 
-const routes: IRoute[] = [];
-for (const path of Object.keys(pages)) {
-  const fileName = path.match(/\.\/pages\/(.*)\.tsx$/)?.[1];
-  if (!fileName) {
-    continue;
-  }
+  // Obtenemos los NFTs de tu contrato
+  const { data: nfts, isLoading, error } = useNFTs(contract);
 
-  const normalizedPathName = fileName.includes("$")
-    ? fileName.replace("$", ":")
-    : fileName.replace(/\/index/, "");
+  return (
+    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto', fontFamily: 'sans-serif' }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
+        <h1 style={{ fontSize: '2rem' }}>Mi Galería de NFTs</h1>
+        <ConnectWallet
+            theme="dark"
+            btnTitle="Conectar Billetera"
+        />
+      </header>
 
-  routes.push({
-    path: fileName === "index" ? "/" : `/${normalizedPathName.toLowerCase()}`,
-    // @ts-ignore
-    Element: pages[path].default,
-    // @ts-ignore
-    loader: pages[path]?.loader as unknown as LoaderFunction | undefined,
-    // @ts-ignore
-    action: pages[path]?.action as unknown as ActionFunction | undefined,
-    // @ts-ignore
-    ErrorBoundary: pages[path]?.ErrorBoundary as unknown as JSX.Element,
-  });
-}
-
-const router = createBrowserRouter(
-  routes.map(({ Element, ErrorBoundary, ...rest }) => ({
-    ...rest,
-    // @ts-ignore
-    element: <Element />,
-    // @ts-ignore
-    ...(ErrorBoundary && { errorElement: <ErrorBoundary /> }),
-  })),
-);
-
-const App = () => {
-  return <RouterProvider router={router} />;
+      {isLoading ? (
+        <p>Cargando NFTs...</p>
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+          {nfts?.map((nft) => (
+            <div key={nft.metadata.id} style={{ border: '1px solid #ddd', borderRadius: '10px', overflow: 'hidden', padding: '10px' }}>
+              <ThirdwebNftMedia
+                metadata={nft.metadata}
+                style={{ width: '100%', height: 'auto', aspectRatio: '1 / 1', objectFit: 'cover' }}
+              />
+              <h2 style={{ fontSize: '1.2rem', marginTop: '10px' }}>{nft.metadata.name}</h2>
+              <p style={{ color: '#666' }}>{nft.metadata.description}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
 
-export default App;
+export default Home;
